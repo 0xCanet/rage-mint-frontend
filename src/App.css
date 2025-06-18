@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #fff;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.card {
+  background-color: #1e1e1e;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  color: #f44336;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 1.2rem;
+}
+
+.total,
+.info {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.success {
+  color: #4caf50;
+  margin-top: 1rem;
+  font-weight: 500;
+}
+
+.button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.button:hover {
+  background-color: #e0e0e0;
+}
+
+.button:disabled {
+  background-color: #999;
+  color: #333;
+  cursor: not-allowed;
+}
+
+.footer {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: #888;
+}
