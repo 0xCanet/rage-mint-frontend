@@ -10,9 +10,8 @@ const RPC_URL = process.env.RPC_URL;
 const abiPath = path.resolve(process.cwd(), 'abis', 'RageToken.json');
 const abi = JSON.parse(fs.readFileSync(abiPath, 'utf8'));
 
-console.log("🔍 Requête reçue :", req.method, req.body);
-
 export default async function handler(req, res) {
+    console.log("🔍 Requête reçue :", req.method, req.body);
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Méthode non autorisée' });
   }
