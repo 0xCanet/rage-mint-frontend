@@ -1,6 +1,6 @@
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
-const provider = new ethers.JsonRpcProvider('https://sepolia.base.org'); // change si testnet
+const provider = new ethers.providers.JsonRpcProvider("https://sepolia.base.org");
 
 const CONTRACT_ADDRESS = '0x1fF69457C1146B29aAA8B9970019a76F8Af39063';
 const ABI = [
