@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import './App.css';
 
-const CONTRACT_ADDRESS = "0x10817feBb15f324e897d220b816a7d962D21c824";
+const CONTRACT_ADDRESS = "0x1fF69457C1146B29aAA8B9970019a76F8Af39063";
 const TOKEN_SYMBOL = "$RAGE"; // ce symbole doit matcher exactement celui déclaré dans le smart contract
 const TOKEN_DECIMALS = 18;
 const TOKEN_IMAGE = "https://i.imgur.com/8JeHxRS.png"; // mettre ici l'URL de ton logo hébergé
