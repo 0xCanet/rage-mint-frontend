@@ -11,7 +11,7 @@ const TOKEN_IMAGE = "https://i.imgur.com/8JeHxRS.png"; // mettre ici l'URL de to
 const ABI = [
   "function mint() public",
   "function balanceOf(address) public view returns (uint256)",
-  "function hasMinted(address) view returns (bool)",
+  "function hasClaimed(address) view returns (bool)",
   "function totalSupply() view returns (uint256)"
 ];
 
@@ -34,7 +34,7 @@ export default function App() {
 
     const _contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, _signer);
     const _balance = await _contract.balanceOf(_address);
-    const _minted = await _contract.hasMinted(_address);
+    const _minted = await _contract.hasClaimed(_address);
     const _supply = await _contract.totalSupply();
 
     setProvider(_provider);
