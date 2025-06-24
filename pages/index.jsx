@@ -50,6 +50,7 @@ export default function Home() {
   setTxPending(true);
   try {
     console.log("handleMint lancé avec :", address);
+    console.log("Minting for address:", currentAccount)
     const res = await fetch('/api/sponsoredMint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
