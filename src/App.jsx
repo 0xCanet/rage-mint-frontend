@@ -53,7 +53,7 @@ async function handleMint() {
     const res = await fetch('/api/sponsoredMint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ address: userAddress }),
+      body: JSON.stringify({ address }),
     });
     const data = await res.json();
 
