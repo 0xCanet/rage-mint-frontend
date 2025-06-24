@@ -9,7 +9,7 @@ const TOKEN_DECIMALS = 18;
 const TOKEN_IMAGE = "https://i.imgur.com/8JeHxRS.png"; // mettre ici l'URL de ton logo hébergé
 
 const ABI = [
-  "function mint() public",
+  "function claim() public",
   "function balanceOf(address) public view returns (uint256)",
   "function hasClaimed(address) view returns (bool)",
   "function totalSupply() view returns (uint256)"
@@ -21,7 +21,7 @@ export default function App() {
   const [address, setAddress] = useState();
   const [contract, setContract] = useState();
   const [balance, setBalance] = useState();
-  const [hasMinted, setHasMinted] = useState(false);
+  const [hasClaimed, setHasMinted] = useState(false);
   const [totalSupply, setTotalSupply] = useState("0");
   const [txPending, setTxPending] = useState(false);
 
@@ -50,7 +50,7 @@ export default function App() {
     if (!contract) return;
     setTxPending(true);
     try {
-      const tx = await contract.mint();
+      const tx = await contract.claim();
       await tx.wait();
       const _balance = await contract.balanceOf(address);
       const _supply = await contract.totalSupply();
@@ -97,7 +97,7 @@ export default function App() {
           <>
             <p className="info">Adresse : {address.slice(0, 6)}...{address.slice(-4)}</p>
             <p className="info">Balance : {balance ? ethers.utils.formatEther(balance) : '...'} $RAGE</p>
-            {hasMinted ? (
+            {hasClaimed ? (
               <p className="success">Tu as déjà minté ton $RAGE 💥</p>
             ) : (
               <button onClick={handleMint} disabled={txPending} className="button">
