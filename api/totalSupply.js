@@ -1,6 +1,7 @@
-import { ethers } from 'ethers';
+import { ethers } from "ethers";
 
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+
 const contractAddress = process.env.CONTRACT_ADDRESS;
 
 const abi = ["function totalSupply() view returns (uint256)"];
