@@ -50,6 +50,7 @@ export default function App() {
   if (!address) return;
   setTxPending(true);
   try {
+    console.log("handleMint lancé avec :", address);
     const res = await fetch('/api/sponsoredMint', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
