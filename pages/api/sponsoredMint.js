@@ -15,8 +15,8 @@ export default async function handler(req, res) {
 
   try {
     const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
-    const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-    const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, abi.abi, wallet);
+    const wallet = new ethers.providers.Wallet(process.env.PRIVATE_KEY, provider);
+    const contract = new ethers.providers.Contract(process.env.CONTRACT_ADDRESS, abi.abi, wallet);
 
     const tx = await contract.mint(address); // ou `sponsoredMint(address)` si tu as renommé
     const receipt = await tx.wait();
