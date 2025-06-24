@@ -11,7 +11,10 @@ const abiPath = path.resolve(process.cwd(), 'abis', 'RageToken.json');
 const abi = JSON.parse(fs.readFileSync(abiPath, 'utf8'));
 
 export default async function handler(req, res) {
-    console.log("🔍 Requête reçue :", req.method, req.body);
+  console.log("🔍 method:", req.method);
+  console.log("🔍 headers:", req.headers);
+  console.log("🔍 body:", req.body);
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Méthode non autorisée' });
   }
@@ -48,4 +51,11 @@ export default async function handler(req, res) {
     console.error('❌ Erreur API /api/sponsoredMint:', error);
     return res.status(500).json({ error: 'Erreur serveur', details: error.message });
   }
+  
 }
+
+export const config = {
+  api: {
+    bodyParser: true,
+  },
+};
