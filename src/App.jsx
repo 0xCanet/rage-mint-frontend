@@ -46,23 +46,31 @@ export default function App() {
     setTotalSupply(_supply);
   }
 
-  async function handleMint() {
-    if (!contract) return;
-    setTxPending(true);
-    try {
-      const tx = await contract.claim();
-      await tx.wait();
-      const _balance = await contract.balanceOf(address);
-      const _supply = await contract.totalSupply();
-      setBalance(_balance);
-      setTotalSupply(_supply);
-      setHasMinted(true);
-    } catch (e) {
-      console.error(e);
-      alert("Erreur pendant le mint (probablement déjà minté)");
-    }
-    setTxPending(false);
+async function handleMint() {
+  if (!address) return;
+  setTxPending(true);
+  try {
+    const res = await fetch('/api/sponsoredMint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || "Erreur inconnue");
+
+    const _balance = await contract.balanceOf(address);
+    const _supply = await contract.totalSupply();
+    setBalance(_balance);
+    setTotalSupply(_supply);
+    setHasMinted(true);
+  } catch (err) {
+    console.error(err);
+    alert("Erreur pendant le mint sponsorisé");
   }
+  setTxPending(false);
+}
+
 
   async function addTokenToWallet() {
     if (!window.ethereum) return;
