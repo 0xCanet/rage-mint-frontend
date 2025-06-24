@@ -1,10 +1,14 @@
-// pages/api/sponsoredMint.js
+import fs from 'fs';
+import path from 'path';
 import { ethers } from 'ethers';
-import abi from '../abis/RageToken.json';
 
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 const PRIVATE_KEY = process.env.SPONSOR_PRIVATE_KEY;
 const RPC_URL = process.env.RPC_URL;
+
+// Chargement de l'ABI depuis le système de fichiers
+const abiPath = path.resolve(process.cwd(), 'abis', 'RageToken.json');
+const abi = JSON.parse(fs.readFileSync(abiPath, 'utf8'));
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -24,11 +28,8 @@ export default async function handler(req, res) {
 
     const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
     const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-
-    // Si abi est déjà au bon format, pas besoin de .abi
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi.abi || abi, wallet);
 
-    // Si tu veux éviter les double mints :
     const hasClaimed = await contract.hasClaimed(address);
     if (hasClaimed) {
       return res.status(400).json({ error: 'Adresse a déjà minté' });
