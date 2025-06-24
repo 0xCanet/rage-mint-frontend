@@ -1,20 +1,24 @@
 import { ethers } from 'ethers';
 
-const CONTRACT_ADDRESS = '0x1fF69457C1146B29aAA8B9970019a76F8Af39063';
-const ABI = [
-  "function totalClaimed() public view returns (uint256)"
+const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+const contractAddress = process.env.CONTRACT_ADDRESS;
+const abi = [
+  // juste la méthode totalSupply, si c’est le seul appel que tu fais
+  "function totalSupply() view returns (uint256)"
 ];
 
-const provider = new ethers.JsonRpcProvider("https://sepolia.base.org");
+const contract = new ethers.Contract(contractAddress, abi, provider);
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // CORS
+  // ✅ Fix CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   try {
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, ABI, provider);
-    const totalClaimed = await contract.totalClaimed();
-    res.status(200).json({ totalMinted: totalClaimed.toString() });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const totalMinted = await contract.totalSupply();
+    res.status(200).json({ totalMinted: totalMinted.toString() });
+  } catch (error) {
+    console.error('Erreur totalSupply API :', error);
+    res.status(500).json({ error: error.message });
   }
 }
