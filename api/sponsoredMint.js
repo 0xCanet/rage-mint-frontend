@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Adresse a déjà minté' });
     }
 
-    const tx = await contract.mint(address);
+    const tx = await contract.claim();
     const receipt = await tx.wait();
 
     return res.status(200).json({
