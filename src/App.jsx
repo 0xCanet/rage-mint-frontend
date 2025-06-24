@@ -47,39 +47,41 @@ export default function App() {
   }
 
   async function handleMint() {
-    if (!address) return;
-    setTxPending(true);
+  if (!address) return;
+  setTxPending(true);
+  try {
+    const res = await fetch('/api/sponsoredMint', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address }),
+    });
+
+    const text = await res.text();
+    let data;
     try {
-      const res = await fetch('/api/sponsoredMint', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address }),
-      });
-
-      let data;
-      try {
-        data = await res.json();
-      } catch (jsonErr) {
-        throw new Error("Réponse serveur invalide : " + (await res.text()));
-      }
-
-      if (!res.ok) {
-        throw new Error(data.error || "Erreur inconnue");
-      }
-
-      const _balance = await contract.balanceOf(address);
-      const _supply = await contract.totalSupply();
-      setBalance(_balance);
-      setTotalSupply(_supply);
-      setHasMinted(true);
-
-      alert("Mint réussi ! 🎉\nTx hash : " + data.txHash);
+      data = JSON.parse(text);
     } catch (err) {
-      console.error(err);
-      alert("Erreur pendant le mint sponsorisé :\n" + err.message);
+      throw new Error("Réponse serveur invalide : " + text);
     }
-    setTxPending(false);
+
+    if (!res.ok) {
+      throw new Error(data.error || "Erreur inconnue");
+    }
+
+    const _balance = await contract.balanceOf(address);
+    const _supply = await contract.totalSupply();
+    setBalance(_balance);
+    setTotalSupply(_supply);
+    setHasMinted(true);
+
+    alert("Mint réussi ! 🎉\nTx hash : " + data.txHash);
+  } catch (err) {
+    console.error(err);
+    alert("Erreur pendant le mint sponsorisé :\n" + err.message);
   }
+  setTxPending(false);
+}
+
 
   async function addTokenToWallet() {
     if (!window.ethereum) return;
