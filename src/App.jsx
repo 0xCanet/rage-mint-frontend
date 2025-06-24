@@ -4,9 +4,9 @@ import { ethers } from 'ethers';
 import './App.css';
 
 const CONTRACT_ADDRESS = "0x1fF69457C1146B29aAA8B9970019a76F8Af39063";
-const TOKEN_SYMBOL = "$RAGE"; // ce symbole doit matcher exactement celui déclaré dans le smart contract
+const TOKEN_SYMBOL = "$RAGE";
 const TOKEN_DECIMALS = 18;
-const TOKEN_IMAGE = "https://i.imgur.com/8JeHxRS.png"; // mettre ici l'URL de ton logo hébergé
+const TOKEN_IMAGE = "https://i.imgur.com/8JeHxRS.png";
 
 const ABI = [
   "function claim() public",
@@ -46,31 +46,40 @@ export default function App() {
     setTotalSupply(_supply);
   }
 
-async function handleMint() {
-  if (!address) return;
-  setTxPending(true);
-  try {
-    const res = await fetch('/api/sponsoredMint', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ address }),
-    });
-    const data = await res.json();
+  async function handleMint() {
+    if (!address) return;
+    setTxPending(true);
+    try {
+      const res = await fetch('/api/sponsoredMint', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address }),
+      });
 
-    if (!res.ok) throw new Error(data.error || "Erreur inconnue");
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        throw new Error("Réponse serveur invalide : " + (await res.text()));
+      }
 
-    const _balance = await contract.balanceOf(address);
-    const _supply = await contract.totalSupply();
-    setBalance(_balance);
-    setTotalSupply(_supply);
-    setHasMinted(true);
-  } catch (err) {
-    console.error(err);
-    alert("Erreur pendant le mint sponsorisé");
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur inconnue");
+      }
+
+      const _balance = await contract.balanceOf(address);
+      const _supply = await contract.totalSupply();
+      setBalance(_balance);
+      setTotalSupply(_supply);
+      setHasMinted(true);
+
+      alert("Mint réussi ! 🎉\nTx hash : " + data.txHash);
+    } catch (err) {
+      console.error(err);
+      alert("Erreur pendant le mint sponsorisé :\n" + err.message);
+    }
+    setTxPending(false);
   }
-  setTxPending(false);
-}
-
 
   async function addTokenToWallet() {
     if (!window.ethereum) return;
