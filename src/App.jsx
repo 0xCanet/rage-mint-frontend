@@ -1,7 +1,6 @@
 // 📁 /rage-mint-frontend/src/App.jsx
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import './App.css';
 
 const CONTRACT_ADDRESS = "0x1fF69457C1146B29aAA8B9970019a76F8Af39063";
 const TOKEN_SYMBOL = "$RAGE";
@@ -15,7 +14,7 @@ const ABI = [
   "function totalSupply() view returns (uint256)"
 ];
 
-export default function App() {
+export default function Home() {
   const [provider, setProvider] = useState();
   const [signer, setSigner] = useState();
   const [address, setAddress] = useState();
